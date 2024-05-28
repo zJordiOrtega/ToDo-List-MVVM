@@ -10,7 +10,7 @@ interface TodoRepository {
 
     suspend fun insertTodo(todo: Todo)
 
-    suspend fun delete(todo: Todo)
+    suspend fun deleteTodo(todo: Todo)
 
     suspend fun getTodoById(id: Int): Todo?
 
