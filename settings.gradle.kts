@@ -16,8 +16,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
     }
 }
+
+
 
 rootProject.name = "ToDoListMVVM"
 include(":app")
