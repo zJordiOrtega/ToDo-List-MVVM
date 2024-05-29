@@ -29,16 +29,16 @@ fun TodoListScreen(
     viewModel: TodoListViewModel = hiltViewModel()
 ) {
     val todos = viewModel.todos.collectAsState(initial = emptyList())
-    val scaffoldState = remember { SnackbarHostState()}
+    val snackbarHostState = remember {SnackbarHostState()}
     LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect{event ->
-            when(event){
-                is UiEvent.ShowSnackBar -> {
-                    val result = scaffoldState.showSnackbar(
+        viewModel.uiEvent.collect { event ->
+            when(event) {
+                is UiEvent.ShowSnackbar -> {
+                    val result = snackbarHostState.showSnackbar(
                         message = event.message,
                         actionLabel = event.action
                     )
-                    if (result == SnackbarResult.ActionPerformed){
+                    if(result == SnackbarResult.ActionPerformed) {
                         viewModel.onEvent(TodoListEvent.OnUndoDeleteClick)
                     }
                 }
@@ -48,7 +48,7 @@ fun TodoListScreen(
         }
     }
     Scaffold(
-        snackbarHost = { SnackbarHost(scaffoldState) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(TodoListEvent.OnAddTodoClick)
@@ -59,11 +59,11 @@ fun TodoListScreen(
                 )
             }
         }
-    ){it
+    ) {it
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(todos.value){todo ->
+            items(todos.value) { todo ->
                 TodoItem(
                     todo = todo,
                     onEvent = viewModel::onEvent,
